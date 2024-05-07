@@ -7,35 +7,27 @@ from rest_framework import generics, permissions
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Internal:
 from paws_and_snaps_api.permissions import IsOwnerOrReadOnly
-from .models import Profile
-from .serializers import ProfileSerializer
+from articles.models import Article
+from .serializers import ArticleSerializer
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-
-class ProfileList(generics.ListAPIView):
+class ArticleList(generics.ListCreateAPIView):
     """
-    List all profiles
-    No Create view (post method), as profile creation handled by django signals
+    A class for the article list to view all articles
     """
-    serializer_class = ProfileSerializer
-    permission_classes = [IsOwnerOrReadOnly]
-    queryset = Profile.objects.all()
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    serializer_class = ArticleSerializer
+    queryset = Article.objects.all()
 
-    
     def perform_create(self, serializer):
     # Set the owner field before saving the serializer
         serializer.save(owner=self.request.user)
 
-class ProfileDetail(generics.RetrieveUpdateDestroyAPIView):
+class ArticleDetail(generics.RetrieveUpdateDestroyAPIView):
     """
-    Retrieve an profile and edit or delete it if you own it.
+    Retrieve an article and edit or delete it if you own it.
     """
-    serializer_class = ProfileSerializer
+    serializer_class = ArticleSerializer
     permission_classes = [IsOwnerOrReadOnly]
-    queryset = Profile.objects.all()
-
-
-
-
-    
+    queryset = Article.objects.all()
