@@ -63,7 +63,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['8000-sarirahul-pawssnapsapi-7mckc9mryoh.ws-eu111.gitpod.io','https://paws-and-snaps-d602158cc7f7.herokuapp.com']
+ALLOWED_HOSTS = ['8000-sarirahul-pawssnapsapi-7mckc9mryoh.ws-eu111.gitpod.io','paws-and-snaps-d602158cc7f7.herokuapp.com']
 
 
 # Application definition
