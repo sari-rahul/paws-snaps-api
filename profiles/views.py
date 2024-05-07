@@ -31,9 +31,6 @@ class ProfileList(generics.ListAPIView):
         'article_count',
     ]
 
-    
-    
-
 class ProfileDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     Retrieve an profile and edit or delete it if you own it.

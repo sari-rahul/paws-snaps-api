@@ -7,7 +7,7 @@ class ArticleSerializer(serializers.ModelSerializer):
     is_owner = serializers.SerializerMethodField()
     profile_id = serializers.ReadOnlyField(source='owner.profile.id')
     profile_image = serializers.ReadOnlyField(source='owner.profile.image.url')
-    #comments_count = serializers.ReadOnlyField()
+    comment_count = serializers.ReadOnlyField()
 
     def validate_image(self, value):
         if value.size > 2 * 1024 * 1024:
@@ -36,5 +36,6 @@ class ArticleSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'owner', 'is_owner', 'profile_id',
             'profile_image', 'created_at', 'updated_at',
-            'title', 'article', 'category','image',    
+            'title', 'article', 'category','image', 
+            'comment_count',   
         ]
