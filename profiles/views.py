@@ -1,8 +1,8 @@
 # Imports
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 3rd party:
-#from django.db.models import Count
-from rest_framework import generics, permissions
+from django.db.models import Count
+from rest_framework import generics, filters
 #from django_filters.rest_framework import DjangoFilterBackend
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Internal:
@@ -20,12 +20,19 @@ class ProfileList(generics.ListAPIView):
     """
     serializer_class = ProfileSerializer
     permission_classes = [IsOwnerOrReadOnly]
-    queryset = Profile.objects.all()
+    queryset = Profile.objects.annotate(
+        article_count = Count('owner__article',distinct=True)
+    ).order_by('-created_at')
+
+    filter_backends = [
+        filters.OrderingFilter
+    ]
+    ordering_fields = [
+        'article_count',
+    ]
 
     
-    def perform_create(self, serializer):
-    # Set the owner field before saving the serializer
-        serializer.save(owner=self.request.user)
+    
 
 class ProfileDetail(generics.RetrieveUpdateDestroyAPIView):
     """
@@ -33,8 +40,9 @@ class ProfileDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     serializer_class = ProfileSerializer
     permission_classes = [IsOwnerOrReadOnly]
-    queryset = Profile.objects.all()
-
+    queryset = Profile.objects.annotate(
+        article_count=Count('owner__article', distinct=True),
+    ).order_by('-created_at')
 
 
 

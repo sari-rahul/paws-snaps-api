@@ -5,11 +5,28 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Article(models.Model):
+    categories = [
+        ('dogs','Dogs'),
+        ('cats','Cats'),
+        ('fishes','Fishes'),
+        ('birds','Birds'),
+        ('horses','Horses'),
+        ('training','Training'),
+        ('wellness','Wellness'),
+        ('adoption','Adoption'),
+        ('other', 'Other'),
+    ]
 
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     article = models.TextField()
-    
+    category = models.CharField(
+        max_length=250,
+        blank=True,
+        null=True,
+        default=None,
+        choices=categories
+    ) 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
