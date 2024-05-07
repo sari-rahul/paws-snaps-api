@@ -1,2 +1,2 @@
 release: python manage.py makemigrations && python manage.py migrate
-web: gunicorn petsclub_api.wsgi
+web: gunicorn paws_and_snaps_api.wsgi
