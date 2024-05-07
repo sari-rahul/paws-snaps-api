@@ -11,7 +11,6 @@ class Profile(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     name = models.CharField(max_length=255, blank=True)
     bio = models.TextField(blank=True)
-    location = models.CharField(max_length=255,blank=True)
     image = models.ImageField(
         upload_to='images/', default='../user_icon_ac6yao'
     )
