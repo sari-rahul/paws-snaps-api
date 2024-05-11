@@ -11,6 +11,9 @@ class Profile(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     name = models.CharField(max_length=255, blank=True)
     bio = models.TextField(blank=True)
+    linked_in = models.TextField(blank=True)
+    instagram = models.TextField(blank=True)
+    facebook = models.TextField(blank=True)
     image = models.ImageField(
         upload_to='images/', default='../user_image_default_fsrw5b'
     )
