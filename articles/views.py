@@ -3,6 +3,8 @@
 # 3rd party:
 from django.db.models import Count
 from rest_framework import generics, filters,permissions
+from django_filters.rest_framework import DjangoFilterBackend
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Internal:
 from paws_and_snaps_api.permissions import IsOwnerOrReadOnly
@@ -18,12 +20,13 @@ class ArticleList(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     serializer_class = ArticleSerializer
     queryset = Article.objects.annotate(
-        comment_count =Count('comment',distinct=True)
+        comment_count = Count('comment',distinct=True)
     ).order_by('-created_at')
 
     filter_backends = [
         filters.OrderingFilter,
         filters.SearchFilter,
+        DjangoFilterBackend,
     ]
     search_fields = [
         'owner__username',
@@ -33,6 +36,10 @@ class ArticleList(generics.ListCreateAPIView):
     
     ordering_fields = [
         'comment_count',
+    ]
+    filterset_fields = [
+        # user posts
+        'owner__profile',
     ]
 
     def perform_create(self, serializer):

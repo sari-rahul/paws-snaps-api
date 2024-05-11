@@ -138,7 +138,10 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'paws_and_snaps_api.wsgi.application'
-
+CSRF_TRUSTED_ORIGINS = [
+    "https://*.gitpod.io",
+    "https://*.herokuapp.com",
+]
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
