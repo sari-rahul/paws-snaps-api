@@ -31,7 +31,7 @@ class Article(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     
     image = models.ImageField(
-        upload_to='images/',blank=True, null=True)
+        upload_to='images/',default='../default_post_elqjw1')
     
     class Meta:
         ordering = ['-created_at']
