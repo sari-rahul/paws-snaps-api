@@ -24,7 +24,7 @@ class Article(models.Model):
         max_length=250,
         blank=True,
         null=True,
-        default=None,
+        default='Other',
         choices=categories
     ) 
     created_at = models.DateTimeField(auto_now_add=True)
