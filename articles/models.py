@@ -33,7 +33,7 @@ class Article(models.Model):
     image = models.ImageField(
         upload_to='images/',default='../default_post_elqjw1')
 
-    #published = models.BooleanField(default=True)
+    published = models.BooleanField(default=True)
     
     class Meta:
         ordering = ['-created_at']
