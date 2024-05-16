@@ -32,8 +32,11 @@ class Article(models.Model):
     
     image = models.ImageField(
         upload_to='images/',default='../default_post_elqjw1')
+        
+    published = models.BooleanField(default=False)
     
     class Meta:
         ordering = ['-created_at']
     def __str__(self):
          return f'{self.id} {self.title}'
+

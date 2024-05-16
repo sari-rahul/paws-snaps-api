@@ -8,6 +8,7 @@ class ArticleSerializer(serializers.ModelSerializer):
     profile_id = serializers.ReadOnlyField(source='owner.profile.id')
     profile_image = serializers.ReadOnlyField(source='owner.profile.image.url')
     comment_count = serializers.ReadOnlyField()
+    published = serializers.BooleanField()
 
     def validate_image(self, value):
         if value.size > 2 * 1024 * 1024:
@@ -27,8 +28,10 @@ class ArticleSerializer(serializers.ModelSerializer):
         return request.user == obj.owner
 
     def create(self, validated_data):
+        # Extract 'published' from validated_data
+        published = validated_data.pop('published', False)
     # Create the article instance
-        article = Article.objects.create(**validated_data)
+        article = Article.objects.create(published=published,**validated_data)
         return article
 
     class Meta:
@@ -37,5 +40,5 @@ class ArticleSerializer(serializers.ModelSerializer):
             'id', 'owner', 'is_owner', 'profile_id',
             'profile_image', 'created_at', 'updated_at',
             'title', 'article', 'category','image', 
-            'comment_count',   
+            'comment_count', 'published',  
         ]
