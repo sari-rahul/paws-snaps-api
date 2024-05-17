@@ -40,6 +40,7 @@ class ArticleList(generics.ListCreateAPIView):
     filterset_fields = [
         # user posts
         'owner__profile',
+        'published',
     ]
 
     def perform_create(self, serializer):
