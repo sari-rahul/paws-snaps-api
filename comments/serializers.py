@@ -6,6 +6,7 @@ from rest_framework import serializers
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Internal:
 from .models import Comment
+from reply.serializers import ReplySerializer
 
 class CommentSerializer(serializers.ModelSerializer):
     """
@@ -17,6 +18,7 @@ class CommentSerializer(serializers.ModelSerializer):
     profile_image = serializers.ReadOnlyField(source='owner.profile.image.url')
     created_at = serializers.SerializerMethodField()
     updated_at = serializers.SerializerMethodField()
+    replies = ReplySerializer(many=True)  # Include nested replies
 
     class Meta:
         model = Comment
@@ -30,6 +32,7 @@ class CommentSerializer(serializers.ModelSerializer):
             'created_at',
             'updated_at',
             'content',
+            'replies',
         ]
 
     def get_created_at(self, obj):
@@ -56,3 +59,7 @@ class CommentDetailSerializer(CommentSerializer):
     That inherits from the comment serializer
     """
     article = serializers.ReadOnlyField(source='article.id')
+    replies = ReplySerializer(many=True, read_only=True)  # Include related replies
+    
+    class Meta(CommentSerializer.Meta):
+        fields = CommentSerializer.Meta.fields + ['replies']
