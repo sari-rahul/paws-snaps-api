@@ -7,7 +7,6 @@ from rest_framework import serializers
 # Internal:
 from .models import Comment
 
-
 class CommentSerializer(serializers.ModelSerializer):
     """
     A class for the comment serializer
@@ -30,7 +29,7 @@ class CommentSerializer(serializers.ModelSerializer):
             'article', 
             'created_at',
             'updated_at',
-            'content'
+            'content',
         ]
 
     def get_created_at(self, obj):
