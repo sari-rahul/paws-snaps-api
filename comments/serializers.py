@@ -35,6 +35,7 @@ class CommentSerializer(serializers.ModelSerializer):
             'content',
             'like_id',
             'likes_count',
+            'is_approved',
         ]
 
     def get_created_at(self, obj):
@@ -70,4 +71,24 @@ class CommentDetailSerializer(CommentSerializer):
     That inherits from the comment serializer
     """
     article = serializers.ReadOnlyField(source='article.id')
-    
+    is_approved = serializers.BooleanField(read_only=True)  
+
+
+class CommentApprovalSerializer(serializers.ModelSerializer):
+    """
+    Serializer for comment approval
+    """
+    is_approved = serializers.BooleanField(required=False) 
+    content = serializers.CharField(read_only=True)
+
+    class Meta:
+        model = Comment
+        fields = ['id', 'content', 'is_approved'] 
+
+    def to_representation(self, instance):
+        """
+        Serialize the instance, including the content field and a default value for is_approved
+        """
+        data = super().to_representation(instance)
+        data['is_approved'] = False  # Default value for approval checkbox
+        return data
