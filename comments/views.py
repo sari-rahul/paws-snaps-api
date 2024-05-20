@@ -3,6 +3,7 @@
 # 3rd party:
 from rest_framework import generics, permissions
 from django_filters.rest_framework import DjangoFilterBackend
+from django.db.models import Count
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Internal:
 from paws_and_snaps_api.permissions import IsOwnerOrReadOnly
@@ -17,7 +18,9 @@ class CommentList(generics.ListCreateAPIView):
     """
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     serializer_class = CommentSerializer
-    queryset = Comment.objects.all()
+    queryset = Comment.objects.annotate(
+        likes_count=Count('likes', distinct=True),
+        )
     filter_backends = [
         DjangoFilterBackend
     ]
@@ -34,4 +37,6 @@ class CommentDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     permission_classes = [IsOwnerOrReadOnly]
     serializer_class = CommentDetailSerializer
-    queryset = Comment.objects.all()
+    queryset = Comment.objects.annotate(
+        likes_count=Count('likes', distinct=True),
+        )
