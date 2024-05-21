@@ -13,7 +13,7 @@ class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
     content = models.TextField()
-    is_approved = models.BooleanField(default=True)
+    is_approved = models.BooleanField(default=False)
 
     class Meta:
         ordering = ['-created_at']
