@@ -22,7 +22,7 @@ class CommentList(generics.ListCreateAPIView):
     serializer_class = CommentSerializer
     queryset = Comment.objects.annotate(
         likes_count=Count('likes', distinct=True),
-        )
+        ).order_by('-created_at')
     filter_backends = [
         DjangoFilterBackend
     ]
