@@ -3,7 +3,6 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 
 
-
 # Create your models here.
 class Profile(models.Model):
     owner = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -23,6 +22,7 @@ class Profile(models.Model):
 
     def __str__(self):
         return f"{self.owner}'s profile"
+
 
 def create_profile(sender, instance, created, **kwargs):
     if created:

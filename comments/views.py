@@ -1,16 +1,17 @@
 # Imports
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 3rd party:
-from rest_framework import generics, permissions,status
+from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 from django.db.models import Count
 from django.shortcuts import get_object_or_404
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Internal:
-from paws_and_snaps_api.permissions import IsOwnerOrReadOnly,IsAdminUser
+from paws_and_snaps_api.permissions import IsOwnerOrReadOnly, IsAdminUser
 from comments.models import Comment
-from .serializers import CommentSerializer, CommentDetailSerializer, CommentApprovalSerializer
+from .serializers import CommentSerializer, CommentDetailSerializer
+from .serializers import CommentApprovalSerializer
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
@@ -26,7 +27,7 @@ class CommentList(generics.ListCreateAPIView):
     filter_backends = [
         DjangoFilterBackend
     ]
-    filterset_fields = ['article'] 
+    filterset_fields = ['article']
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
@@ -42,6 +43,7 @@ class CommentDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Comment.objects.annotate(
         likes_count=Count('likes', distinct=True),
         )
+
 
 class CommentApproval(generics.UpdateAPIView):
     """
@@ -62,8 +64,8 @@ class CommentApproval(generics.UpdateAPIView):
         is_approved = request.data.get('is_approved', '').lower() == 'true'
         instance.is_approved = is_approved
         instance.save()
-        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer = self.get_serializer(instance,
+                                         data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
         return Response(serializer.data)
-    

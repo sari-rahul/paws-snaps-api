@@ -31,7 +31,7 @@ class ArticleSerializer(serializers.ModelSerializer):
         # Extract 'published' from validated_data
         published = validated_data.pop('published', True)
     # Create the article instance
-        article = Article.objects.create(published=published,**validated_data)
+        article = Article.objects.create(published=published, **validated_data)
         return article
 
     class Meta:
@@ -39,6 +39,6 @@ class ArticleSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'owner', 'is_owner', 'profile_id',
             'profile_image', 'created_at', 'updated_at',
-            'title', 'article', 'category','image', 
-            'comment_count', 'published',  
+            'title', 'article', 'category', 'image',
+            'comment_count', 'published',
         ]

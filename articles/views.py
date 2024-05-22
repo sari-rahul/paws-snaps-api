@@ -2,7 +2,7 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 3rd party:
 from django.db.models import Count
-from rest_framework import generics, filters,permissions
+from rest_framework import generics, filters, permissions
 from django_filters.rest_framework import DjangoFilterBackend
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -20,7 +20,7 @@ class ArticleList(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     serializer_class = ArticleSerializer
     queryset = Article.objects.annotate(
-        comment_count = Count('comment',distinct=True)
+        comment_count=Count('comment', distinct=True)
     ).order_by('-created_at')
 
     filter_backends = [
@@ -33,7 +33,6 @@ class ArticleList(generics.ListCreateAPIView):
         'title',
         'category',
     ]
-    
     ordering_fields = [
         'comment_count',
     ]
@@ -44,8 +43,8 @@ class ArticleList(generics.ListCreateAPIView):
     ]
 
     def perform_create(self, serializer):
-    # Set the owner field before saving the serializer
         serializer.save(owner=self.request.user)
+
 
 class ArticleDetail(generics.RetrieveUpdateDestroyAPIView):
     """
@@ -54,5 +53,5 @@ class ArticleDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ArticleSerializer
     permission_classes = [IsOwnerOrReadOnly]
     queryset = Article.objects.annotate(
-        comment_count =Count('comment',distinct=True)
+        comment_count=Count('comment', distinct=True)
     ).order_by('-created_at')

@@ -4,16 +4,17 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
 class Article(models.Model):
     categories = [
-        ('dogs','Dogs'),
-        ('cats','Cats'),
-        ('fishes','Fishes'),
-        ('birds','Birds'),
-        ('horses','Horses'),
-        ('training','Training'),
-        ('wellness','Wellness'),
-        ('adoption','Adoption'),
+        ('dogs', 'Dogs'),
+        ('cats', 'Cats'),
+        ('fishes', 'Fishes'),
+        ('birds', 'Birds'),
+        ('horses', 'Horses'),
+        ('training', 'Training'),
+        ('wellness', 'Wellness'),
+        ('adoption', 'Adoption'),
         ('other', 'Other'),
     ]
 
@@ -26,17 +27,17 @@ class Article(models.Model):
         null=True,
         default='Other',
         choices=categories
-    ) 
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    
+
     image = models.ImageField(
-        upload_to='images/',default='../default_post_elqjw1')
+        upload_to='images/', default='../default_post_elqjw1')
 
     published = models.BooleanField(default=True)
-    
+
     class Meta:
         ordering = ['-created_at']
-    def __str__(self):
-         return f'{self.id} {self.title}'
 
+    def __str__(self):
+        return f'{self.id} {self.title}'
