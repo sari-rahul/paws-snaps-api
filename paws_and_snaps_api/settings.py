@@ -61,7 +61,7 @@ REST_AUTH_SERIALIZERS = {
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['8000-sarirahul-pawssnapsapi-7mckc9mryoh.ws-eu114.gitpod.io','paws-and-snaps-d602158cc7f7.herokuapp.com']
 
