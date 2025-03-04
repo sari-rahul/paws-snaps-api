@@ -105,11 +105,19 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+# If 'CLIENT_ORIGIN' is set in the environment, use it for CORS_ALLOWED_ORIGINS
 if 'CLIENT_ORIGIN' in os.environ:
-     CORS_ALLOWED_ORIGINS = [
-         os.environ.get('CLIENT_ORIGIN')
+    CORS_ALLOWED_ORIGINS = [
+        os.environ.get('CLIENT_ORIGIN')
+    ]
+else:
+    # Provide a default value for CORS_ALLOWED_ORIGINS (e.g., production URL)
+    CORS_ALLOWED_ORIGINS = [
+        'https://pawfect-pics-87d81c100ee5.herokuapp.com',  
     ]
 
+# If 'CLIENT_ORIGIN_DEV' is set in the environment, use it for CORS_ALLOWED_ORIGIN_REGEXES
 if 'CLIENT_ORIGIN_DEV' in os.environ:
     extracted_url = re.match(
         r'^.+-', os.environ.get('CLIENT_ORIGIN_DEV', ''), re.IGNORECASE
@@ -117,7 +125,11 @@ if 'CLIENT_ORIGIN_DEV' in os.environ:
     CORS_ALLOWED_ORIGIN_REGEXES = [
         rf"{extracted_url}(eu|us)\d+\w\.gitpod\.io$",
     ]
-
+else:
+    # Provide a default value for CORS_ALLOWED_ORIGIN_REGEXES
+    CORS_ALLOWED_ORIGIN_REGEXES = [
+        r'https://pawfect-pics-87d81c100ee5.herokuapp.com',
+    ]
 CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = 'paws_and_snaps_api.urls'
