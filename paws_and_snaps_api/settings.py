@@ -117,18 +117,27 @@ else:
         'https://pawfect-pics-87d81c100ee5.herokuapp.com',  
     ]
 
-# If 'CLIENT_ORIGIN_DEV' is set in the environment, use it for CORS_ALLOWED_ORIGIN_REGEXES
 if 'CLIENT_ORIGIN_DEV' in os.environ:
-    extracted_url = re.match(
-        r'^.+-', os.environ.get('CLIENT_ORIGIN_DEV', ''), re.IGNORECASE
-    ).group(0)
-    CORS_ALLOWED_ORIGIN_REGEXES = [
-        rf"{extracted_url}(eu|us)\d+\w\.gitpod\.io$",
-    ]
+    # Get CLIENT_ORIGIN_DEV value
+    client_origin_dev = os.environ.get('CLIENT_ORIGIN_DEV', '')
+
+    # Check if a match is found
+    match = re.match(r'^.+-', client_origin_dev, re.IGNORECASE)
+    
+    if match:
+        extracted_url = match.group(0)
+        CORS_ALLOWED_ORIGIN_REGEXES = [
+            rf"{extracted_url}(eu|us)\d+\w\.gitpod\.io$",
+        ]
+    else:
+        # Handle the case where no match is found
+        CORS_ALLOWED_ORIGIN_REGEXES = [
+            r'https://pawfect-pics-87d81c100ee5.herokuapp.com',  # Fallback regex
+        ]
 else:
     # Provide a default value for CORS_ALLOWED_ORIGIN_REGEXES
     CORS_ALLOWED_ORIGIN_REGEXES = [
-        r'https://pawfect-pics-87d81c100ee5.herokuapp.com',
+        r'https://pawfect-pics-87d81c100ee5.herokuapp.com',  # Fallback regex
     ]
 CORS_ALLOW_CREDENTIALS = True
 
