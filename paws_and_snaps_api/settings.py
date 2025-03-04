@@ -14,8 +14,9 @@ from pathlib import Path
 import os
 import re
 import dj_database_url 
-if os.path.exists('env.py'):
-    import env
+from dotenv import load_dotenv
+load_dotenv()
+
 
 
 CLOUDINARY_STORAGE = {
@@ -63,7 +64,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['8000-sarirahul-pawssnapsapi-7mckc9mryoh.ws-eu114.gitpod.io','paws-and-snaps-d602158cc7f7.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1','paws-and-snaps-d602158cc7f7.herokuapp.com']
 
 
 # Application definition
@@ -104,6 +105,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 # If 'CLIENT_ORIGIN' is set in the environment, use it for CORS_ALLOWED_ORIGINS
@@ -161,7 +163,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'paws_and_snaps_api.wsgi.application'
 CSRF_TRUSTED_ORIGINS = [
-    "https://*.gitpod.io",
+    "http://127.0.0.1:8000",
+    "http://localhost:8000",
     "https://*.herokuapp.com",
 ]
 
@@ -180,6 +183,7 @@ else:
     DATABASES = {
         'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
     }
+
     
 
 
